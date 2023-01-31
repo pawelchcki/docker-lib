@@ -1,10 +1,11 @@
-FROM scratch as isolate-cargo
+#syntax=docker/dockerfile:1.4
+FROM scratch as common
 FROM scratch as reset-fs-metadata
 
 FROM scratch as staging-area
-COPY --from=isolate-cargo . .
-COPY --from=reset-fs-metadata . .
+    WORKDIR /usr/bin
+    COPY --from=common . .
+    COPY --from=reset-fs-metadata . .
 
 FROM scratch as final
-WORKDIR /usr/bin
-COPY --from=staging-area . .
+    COPY --from=staging-area . .

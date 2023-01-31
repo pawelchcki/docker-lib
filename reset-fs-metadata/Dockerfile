@@ -11,8 +11,5 @@ RUN go test -v
 RUN CGO_ENABLED=0 go build -o /go/bin/reset-fs-metadata
 
 FROM scratch
-
-COPY --from=build /go/bin/reset-fs-metadata /bin/
-WORKDIR /bin/
-CMD ["/bin/reset-fs-metadata"]
-ENTRYPOINT ["/bin/reset-fs-metadata"]
+COPY --from=build /go/bin/reset-fs-metadata ./dl-reset-fs-metadata
+ENTRYPOINT ["/dl-reset-fs-metadata"]

@@ -1,19 +1,38 @@
 target "build-reset-fs-metadata" {
-  context="reset-fs-metadata"
+    context="reset-fs-metadata"
 }
 
-target "build-isolate-cargo" {
-  context="isolate-cargo"
+target "build-bake-targets" {
+    context = "bake-targets"
+}
+
+target "build-common" {
+    context = "common"
 }
 
 target "build-docker-lib" {
     context = "docker-lib" 
     contexts = {
-        isolate-cargo = "target:build-isolate-cargo"
+        common = "target:build-common"
         reset-fs-metadata = "target:build-reset-fs-metadata"
+        bake-targets = "target:build-bake-targets"
+    }
+    tags = [
+        "ghcr.io/pawelchcki/docker-lib:latest"
+    ]
+}
+
+target "test-basic-operation" {
+    context = "tests"
+    dockerfile = "basic.Dockerfile"
+    contexts = {
+        docker-lib = "target:build-docker-lib"
     }
 }
 
+group "test" {
+    targets = ["test-basic-operation"]
+}
 
 group "default" {
     targets = ["build-docker-lib"]
