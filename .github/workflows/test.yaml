@@ -63,4 +63,7 @@ jobs:
         uses: docker/bake-action@v2
         with:
           targets: ${{ matrix.target }}
+          set: |
+            *.cache-from=type=gha,scope=test-${{ matrix.target }}
+            *.cache-to=type=gha,mode=max,scope=test-${{ matrix.target }}
           

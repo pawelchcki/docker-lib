@@ -13,7 +13,7 @@ FROM busybox as fs-metadata-test
     # Test dl-reset-fs-metadata
         # by default generated tars will differe due to different metadata
         RUN mkdir folder_a; cd folder_a; echo "contents" > file
-        RUN mkdir folder_b; cd folder_b; echo "contents" > file
+        RUN mkdir folder_b; cd folder_b; echo "contents" > file;  touch -t 9901010101 file
         RUN tar cf tar_a -C folder_a .; tar cf tar_b -C folder_b .
 
         RUN set -xe; \
