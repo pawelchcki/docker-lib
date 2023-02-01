@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -33,7 +34,7 @@ func main() {
 
 		flagSet.PrintDefaults()
 	}
-	verbose := flagSet.Bool("v", false, "enable verbose output")
+	groupName := flagSet.String("g", "default", "bake group to list targets for")
 	flagSet.Parse(os.Args[1:])
 
 	if flagSet.NArg() == 0 {
@@ -41,8 +42,6 @@ func main() {
 		os.Exit(0)
 	}
 
-	if *verbose {
-	}
 	filePath := flagSet.Arg(0)
 
 	contents, err := ioutil.ReadFile(filePath)
@@ -50,6 +49,15 @@ func main() {
 		panic(err)
 	}
 
-	listGroupTargets(contents, filePath, "hello")
+	targets, err := listGroupTargets(contents, filePath, *groupName)
+	if err != nil {
+		panic(err)
+	}
 
+	// fmt.Println(strings.Join(targets, "\n"))
+	output, err := json.Marshal(targets)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(output))
 }

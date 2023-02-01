@@ -5,6 +5,10 @@ target "build-reset-fs-metadata" {
 target "build-bake-targets" {
     context = "bake-targets"
 }
+target "test-bake-targets" {
+    inherits = ["build-bake-targets"]
+    target = "test"
+}
 
 target "build-common" {
     context = "common"
@@ -36,9 +40,14 @@ target "test-cargo-isolation" {
 }
 
 group "test" {
-    targets = ["test-basic-operation", "test-cargo-isolation"]
+    targets = ["test-basic-operation", "test-cargo-isolation", "test-bake-targets"]
 }
 
 group "default" {
     targets = ["build-docker-lib"]
+}
+
+target "extract-test-targets" {
+    target = "extract-test-targets"
+    output = ["type=local,dest=./"]
 }
