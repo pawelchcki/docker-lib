@@ -1,6 +1,6 @@
 FROM golang:1.18 as base
     WORKDIR /go/src/app
-    COPY go.mod .
+    COPY go.mod go.sum .
 
     RUN go mod download
     COPY . .
