@@ -30,8 +30,13 @@ target "test-basic-operation" {
     }
 }
 
+target "test-cargo-isolation" {
+    inherits = ["test-basic-operation"]
+    dockerfile = "cargo.Dockerfile"
+}
+
 group "test" {
-    targets = ["test-basic-operation"]
+    targets = ["test-basic-operation", "test-cargo-isolation"]
 }
 
 group "default" {
