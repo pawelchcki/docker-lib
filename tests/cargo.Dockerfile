@@ -1,7 +1,7 @@
 #syntax=docker/dockerfile:1.4
 FROM ghcr.io/pawelchcki/docker-lib:latest as docker-lib
 
-FROM busybox as cargo-isaltion
+FROM bash as cargo-isaltion
     COPY --from=docker-lib . /
     WORKDIR /test-a/1/
 

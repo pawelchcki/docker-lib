@@ -1,7 +1,7 @@
 #syntax=docker/dockerfile:1.4
 FROM ghcr.io/pawelchcki/docker-lib:latest as docker-lib
 
-FROM busybox as fs-metadata-test
+FROM bash as fs-metadata-test
     WORKDIR /test-a
     COPY --from=docker-lib . /
     # scripts should exists and be executable
